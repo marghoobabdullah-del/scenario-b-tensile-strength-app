@@ -1,0 +1,18 @@
+[
+  {"name":"Random Forest Tuned — Scenario B","file":"models/tuned_rf.pkl","type":"Random Forest","scenario":"B","status":"Primary / Best","show_in_comparison":true},
+  {"name":"Random Forest Default — Scenario B","file":"models/rf.pkl","type":"Random Forest","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"XGBoost Tuned — Scenario B","file":"models/tuned_xgb.pkl","type":"XGBoost","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"XGBoost Default — Scenario B","file":"models/xgb.pkl","type":"XGBoost","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"LightGBM Tuned — Scenario B","file":"models/tuned_lgb.pkl","type":"LightGBM","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"LightGBM Default — Scenario B","file":"models/lgb.pkl","type":"LightGBM","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"CatBoost Tuned — Scenario B","file":"models/tuned_cb.pkl","type":"CatBoost","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"CatBoost Default — Scenario B","file":"models/cb.pkl","type":"CatBoost","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"Gradient Boosting Tuned — Scenario B","file":"models/tuned_gb.pkl","type":"Gradient Boosting","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"Gradient Boosting Default — Scenario B","file":"models/gb.pkl","type":"Gradient Boosting","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"Decision Tree — Scenario B","file":"models/dt.pkl","type":"Decision Tree","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"SVR — Scenario B","file":"models/svr.pkl","type":"SVR","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"ANN / MLP — Scenario B","file":"models/ann.pkl","type":"ANN","scenario":"B","status":"Comparison","show_in_comparison":true},
+  {"name":"Linear Regression — Scenario B","file":"models/linear.pkl","type":"Linear Regression","scenario":"B","status":"Baseline","show_in_comparison":true},
+  {"name":"Ridge Regression — Scenario B","file":"models/ridge.pkl","type":"Ridge","scenario":"B","status":"Baseline","show_in_comparison":true},
+  {"name":"Lasso Regression — Scenario B","file":"models/lasso.pkl","type":"Lasso","scenario":"B","status":"Baseline","show_in_comparison":true}
+]
