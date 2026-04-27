@@ -71,7 +71,7 @@ _PLOTLY_TEMPLATE = "plotly_white"
 # Page config
 # ============================================================
 st.set_page_config(
-    page_title="Scenario B — Tensile Strength Predictor",
+    page_title="TensAile Lab",
     page_icon="🧱",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -789,11 +789,9 @@ with st.sidebar:
 # ============================================================
 # PAGE HEADER
 # ============================================================
-st.markdown('<div class="app-title">Scenario B — Tensile Strength Predictor</div>', unsafe_allow_html=True)
+st.markdown('<div class="app-title">TensAile Lab</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="app-subtitle">Machine-learning prediction dashboard · Primary model: '
-    '<b>Random Forest Tuned — Scenario B</b>. SCM type and dosage are auto-converted '
-    'to the Scenario B one-hot input format.</div>',
+    '<div class="app-subtitle">Machine Learning prediction dashboard to predict tensile strength</div>',
     unsafe_allow_html=True,
 )
 st.markdown(
@@ -802,6 +800,14 @@ st.markdown(
     '<span class="pill">Reliability score</span>'
     '<span class="pill">Local sensitivity</span>'
     '<span class="pill">Pareto optimizer</span>',
+    unsafe_allow_html=True,
+)
+st.markdown(
+    '<div class="alert alert-info" style="margin-top:0.7rem;">'
+    'ℹ️ This page presents <b>114 mix designs</b> identified by <b>NSGA-II</b> '
+    '(Non-dominated Sorting Genetic Algorithm II) as Pareto-optimal — meaning no other '
+    'mix design simultaneously delivers <b>higher strength</b> AND <b>lower cement content</b>.'
+    '</div>',
     unsafe_allow_html=True,
 )
 
