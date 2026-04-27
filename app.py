@@ -264,6 +264,9 @@ def load_registry() -> List[Dict[str, Any]]:
     for item in reg:
         item = dict(item)
         item.setdefault("name", "Unnamed"); item.setdefault("file", "")
+        # Strip variant suffixes from names loaded from registry
+        import re as _re
+        item["name"] = _re.sub(r'\s*[—\-]+\s*Scenario\s+B\s*$', '', item["name"], flags=_re.IGNORECASE).strip()
         item["type"] = _infer_type(item)
         item.setdefault("status", "Comparison"); item.setdefault("show_in_comparison", True)
         for m in ("r2", "mae", "rmse"):
