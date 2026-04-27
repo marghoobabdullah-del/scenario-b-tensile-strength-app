@@ -35,7 +35,7 @@ SCM_COLUMNS   = ["Quartz", "Fly Ash", "Bagasse", "Silica Fume", "Calcium Carbona
 FEATURE_COLUMNS = ["Water", "Cement"] + SCM_COLUMNS + ["Fiber"]
 SCM_TYPES     = SCM_COLUMNS.copy()
 
-PRIMARY_MODEL_NAME = "Random Forest Tuned — Scenario B"
+PRIMARY_MODEL_NAME = "Random Forest Tuned"
 
 TRAINING_RANGES: Dict[str, Dict[str, Any]] = {
     "Water":      {"min": 300.0, "max": 400.0,  "unit": "kg/m³", "reference": 350.0},
@@ -254,11 +254,11 @@ def load_registry() -> List[Dict[str, Any]]:
             reg = json.load(f)
     else:
         reg = [
-            {"name":"Random Forest Tuned — Scenario B",   "file":"models/tuned_rf.pkl","type":"Random Forest",   "status":"Primary / Best","show_in_comparison":True},
-            {"name":"Random Forest Default — Scenario B", "file":"models/rf.pkl",       "type":"Random Forest",   "status":"Comparison",    "show_in_comparison":True},
-            {"name":"XGBoost Default — Scenario B",       "file":"models/xgb.pkl",      "type":"XGBoost",         "status":"Comparison",    "show_in_comparison":True},
-            {"name":"LightGBM Default — Scenario B",      "file":"models/lgb.pkl",      "type":"LightGBM",        "status":"Comparison",    "show_in_comparison":True},
-            {"name":"CatBoost Default — Scenario B",      "file":"models/cb.pkl",       "type":"CatBoost",        "status":"Comparison",    "show_in_comparison":True},
+            {"name":"Random Forest Tuned",   "file":"models/tuned_rf.pkl","type":"Random Forest",   "status":"Primary / Best","show_in_comparison":True},
+            {"name":"Random Forest Default", "file":"models/rf.pkl",       "type":"Random Forest",   "status":"Comparison",    "show_in_comparison":True},
+            {"name":"XGBoost Default",       "file":"models/xgb.pkl",      "type":"XGBoost",         "status":"Comparison",    "show_in_comparison":True},
+            {"name":"LightGBM Default",      "file":"models/lgb.pkl",      "type":"LightGBM",        "status":"Comparison",    "show_in_comparison":True},
+            {"name":"CatBoost Default",      "file":"models/cb.pkl",       "type":"CatBoost",        "status":"Comparison",    "show_in_comparison":True},
         ]
     out = []
     for item in reg:
@@ -403,7 +403,7 @@ def reliability_score(ui: Dict[str, Any]) -> Tuple[int, str, List[str]]:
         elif sc <= 0.15 or sc >= 0.85: score -= 5.0;  notes.append(f"{k.replace('_',' ')} is near a training-range boundary.")
     s = int(round(max(0.0, min(100.0, score))))
     label = "High" if s >= 85 else ("Medium" if s >= 60 else "Low")
-    if not notes: notes.append("All inputs are comfortably inside the Scenario B training domain.")
+    if not notes: notes.append("All inputs are comfortably inside the training domain.")
     return s, label, notes
 
 
@@ -733,7 +733,7 @@ def generate_report(ui, model_name, pred, mode, unc_text, rel_score, rel_label, 
         f"  Reliability:{rel_score}% ({rel_label})","",
         "TRAINING RANGE STATUS","-"*54,
     ]
-    lines += [f"  WARNING: {w}" for w in warns] or ["  All inputs are within the Scenario B training range."]
+    lines += [f"  WARNING: {w}" for w in warns] or ["  All inputs are within the training range."]
     lines += ["","MODEL COMPARISON","-"*54]
     if not cmp_df.empty:
         cols = [c for c in ["Model","Prediction (MPa)","Δ vs RF Tuned","Status"] if c in cmp_df.columns]
@@ -755,9 +755,6 @@ model_names = [m["name"] for m in registry]
 # SIDEBAR
 # ============================================================
 with st.sidebar:
-    st.markdown("### Navigation")
-    section = st.selectbox("Section", ["Predictor","Explanation","Optimizer"], index=0)
-
     st.markdown("### Model")
     sel_name = st.selectbox(
         "Active model", model_names,
@@ -767,7 +764,7 @@ with st.sidebar:
     sel_info = next(m for m in registry if m["name"] == sel_name)
 
     st.markdown("### Recommended")
-    st.caption("⭐ Random Forest Tuned — Scenario B")
+    st.caption("⭐ Random Forest Tuned")
     st.caption("Use other models for comparison only.")
 
     st.markdown("### Training Ranges")
@@ -794,13 +791,13 @@ st.markdown(
     '<div class="app-subtitle">Machine Learning prediction dashboard to predict tensile strength</div>',
     unsafe_allow_html=True,
 )
-st.markdown(
-    '<span class="pill pill-primary">RF Tuned primary</span>'
-    '<span class="pill">Model comparison</span>'
-    '<span class="pill">Reliability score</span>'
-    '<span class="pill">Local sensitivity</span>'
-    '<span class="pill">Pareto optimizer</span>',
-    unsafe_allow_html=True,
+# Section switcher (no pills)
+section = st.selectbox(
+    "Section",
+    ["Predictor", "Explanation", "Optimizer"],
+    index=0,
+    label_visibility="collapsed",
+    help="Switch between Predictor, Explanation and Optimizer views.",
 )
 st.markdown(
     '<div class="alert alert-info" style="margin-top:0.7rem;">'
@@ -926,7 +923,7 @@ if section == "Predictor":
             f'<div class="metric-card metric-card-slate">'
             f'<div class="metric-label">Training Domain Status</div>'
             f'<div class="metric-value" style="font-size:1.45rem;color:{sc_}">{sv}</div>'
-            f'<div class="metric-note">Scenario B valid-range check active</div>'
+            f'<div class="metric-note">Valid-range check active</div>'
             f'</div>', unsafe_allow_html=True)
 
     st.markdown('<hr class="section-rule">', unsafe_allow_html=True)
@@ -951,13 +948,13 @@ if section == "Predictor":
             for w in warns:
                 st.markdown(f'<div class="alert alert-warn">⚠️ {w}<br><span style="font-size:0.85em">Treat as extrapolation.</span></div>', unsafe_allow_html=True)
         else:
-            st.markdown('<div class="alert alert-success">✅ All inputs are within the Scenario B training range.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="alert alert-success">✅ All inputs are within the training range.</div>', unsafe_allow_html=True)
 
         st.markdown("**Reliability notes**")
         for n in rel_notes:
             st.caption(f"• {n}")
 
-        with st.expander("📋 Scenario B input vector"):
+        with st.expander("📋 Input vector"):
             st.dataframe(row, use_container_width=True, hide_index=True)
 
         report_txt = generate_report(
@@ -968,7 +965,7 @@ if section == "Predictor":
         st.download_button(
             "⬇️ Download prediction report",
             data=report_txt.encode("utf-8"),
-            file_name="scenario_b_prediction_report.txt",
+            file_name="prediction_report.txt",
             mime="text/plain",
             use_container_width=True,
         )
@@ -1170,6 +1167,6 @@ elif section == "Optimizer":
         csv_bytes = results[display_cols].to_csv(index=False).encode("utf-8")
         st.download_button(
             "⬇️ Download optimized mixes CSV",
-            data=csv_bytes, file_name="optimized_scenario_b_mixes.csv",
+            data=csv_bytes, file_name="optimized_mixes.csv",
             mime="text/csv", use_container_width=True,
         )
